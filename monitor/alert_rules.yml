@@ -1,0 +1,10 @@
+groups:
+  - name: JVMMemory
+    rules:
+      - alert: JVMMemoryThresholdCrossed
+        expr: jvm_memory_committed_bytes{region="heap"}/jvm_memory_max_bytes{region="heap"} > 0.8
+        labels:
+          severity: 'critical'
+        annotations:
+          title: 'Instance has crossed 80% heap memory usage'
+          description: ' of job  has crossed 80% heap memory usage'

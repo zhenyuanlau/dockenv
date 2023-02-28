@@ -1,0 +1,19 @@
+version: '3.6'
+services:
+  web:
+    image: 'yrzr/gitlab-ce-arm64v8'
+    container_name: gitlab
+    restart: always
+    privileged: true
+    hostname: 'git.local'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        nginx['redirect_http_to_https'] = true;
+    ports:
+      - '8880:80'
+      - '8443:443'
+      - '8822:22'
+    volumes:
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'

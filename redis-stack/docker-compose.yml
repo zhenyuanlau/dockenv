@@ -1,0 +1,13 @@
+---
+version: "3.9"
+
+services:
+  redis-stack:
+    container_name: redis-stack
+    hostname: redis-stack
+    image: redis/redis-stack:latest
+    volumes:
+      - .:/data
+    ports:
+      - 6379:6379
+      - 8001:8001
