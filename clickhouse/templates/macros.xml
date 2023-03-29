@@ -1,10 +1,9 @@
 <clickhouse>
-    <distributed_ddl>
-        <path>/clickhouse/task_queue/ddl</path>
-    </distributed_ddl>
-    <macros>
-        <cluster>events</cluster>
-        <shard>${SHARD}</shard>
-        <replica>${REPLICA}</replica>
-    </macros>
+  <distributed_ddl>
+    <path>/clickhouse/task_queue/ddl</path>
+  </distributed_ddl>
+  <macros>
+    <shard>${SHARD}</shard>
+    <replica>${REPLICA}</replica>
+  </macros>
 </clickhouse>

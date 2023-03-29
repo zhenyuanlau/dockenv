@@ -1,5 +1,3 @@
-version: '2'
-
 services:
   registry:
     image: docker.io/bitnami/harbor-registry:2

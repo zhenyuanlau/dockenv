@@ -1,0 +1,42 @@
+<clickhouse>
+  <keeper_server>
+    <!-- Port for a client to connect (default for ZooKeeper is 2181) -->
+    <tcp_port>9181</tcp_port>
+    <!-- Unique server id, each participant of the ClickHouse Keeper cluster must have a unique number (1, 2, 3, and so on) -->
+    <server_id>${SERVER_ID}</server_id>
+    <!-- Path to coordination logs, just like ZooKeeper it is best to store logs on non-busy nodes -->
+    <log_storage_path>/var/lib/clickhouse/coordination/log</log_storage_path>
+    <!-- Path to coordination snapshots -->
+    <snapshot_storage_path>/var/lib/clickhouse/coordination/snapshots</snapshot_storage_path>
+
+    <coordination_settings>
+      <!-- Timeout for a single client operation (ms) (default: 10000) -->
+      <operation_timeout_ms>10000</operation_timeout_ms>
+      <!-- Max timeout for client session (ms) (default: 100000) -->
+      <session_timeout_ms>30000</session_timeout_ms>
+      <!-- Text logging level about coordination (trace, debug, and so on) (default: system default) -->
+      <raft_logs_level>warning</raft_logs_level>
+    </coordination_settings>
+
+    <raft_configuration>
+      <server>
+        <!-- Server identifier in a quorum -->
+        <id>1</id>
+        <!-- Hostname where this server is placed -->
+        <hostname>ch1</hostname>
+        <!-- Port where this server listens for connections -->
+        <port>9444</port>
+      </server>
+      <server>
+        <id>2</id>
+        <hostname>ch2</hostname>
+        <port>9444</port>
+      </server>
+      <server>
+        <id>3</id>
+        <hostname>ch3</hostname>
+        <port>9444</port>
+      </server>
+    </raft_configuration>
+  </keeper_server>
+</clickhouse>
