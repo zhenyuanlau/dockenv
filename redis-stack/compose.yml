@@ -1,4 +1,3 @@
----
 services:
   redis-stack:
     container_name: redis-stack
