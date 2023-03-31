@@ -1,10 +1,10 @@
 services:
-  redis-stack:
+  redis:
     container_name: redis-stack
     hostname: redis-stack
     image: redis/redis-stack:latest
     volumes:
-      - .:/data
+      - redis-data:/data
     ports:
       - 6379:6379
       - 8001:8001
@@ -14,3 +14,6 @@ services:
 networks:
   compose:
     external: true
+
+volumes:
+  redis-data:

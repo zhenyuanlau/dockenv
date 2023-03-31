@@ -8,10 +8,12 @@ external:
 up: external
 	$(MAKE) -C clickhouse $@
 	$(MAKE) -C rabbitmq $@
-	$(MAKE) -C redis-stack $@
+	$(MAKE) -C redis $@
+	$(MAKE) -C postgres $@
 
 .PHONY: down
 down:
 	$(MAKE) -C clickhouse $@
 	$(MAKE) -C rabbitmq $@
-	$(MAKE) -C redis-stack $@
+	$(MAKE) -C redis $@
+	$(MAKE) -C postgres $@
