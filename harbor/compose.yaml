@@ -15,7 +15,7 @@ services:
     volumes:
       - registry_data:/storage
       - ./config/registry/:/etc/registry/:ro
-      - ./config/registryctl/config.yml:/etc/registryctl/config.yml:ro
+      - ./config/registryctl/config.yaml:/etc/registryctl/config.yaml:ro
   postgresql:
     image: docker.io/bitnami/postgresql:13
     container_name: harbor-db
@@ -87,7 +87,7 @@ services:
       - REGISTRY_CREDENTIAL_PASSWORD=harbor_registry_password
     volumes:
       - jobservice_data:/var/log/jobs
-      - ./config/jobservice/config.yml:/etc/jobservice/config.yml:ro
+      - ./config/jobservice/config.yaml:/etc/jobservice/config.yaml:ro
   redis:
     image: docker.io/bitnami/redis:7.0
     environment:

@@ -23,7 +23,7 @@ global:
 # rule_files:
 #   [ - <filepath_glob> ... ]
 rule_files:
-  - /etc/prometheus/alert_rules.yml
+  - /etc/prometheus/alert_rules.yaml
 
 # A list of scrape configurations.
 # scrape_configs:

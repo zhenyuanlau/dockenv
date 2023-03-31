@@ -21,11 +21,11 @@ services:
     hostname: prometheus
     image: prom/prometheus
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./alert_rules.yml:/etc/prometheus/alert_rules.yml
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml
       - prometheus_data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/etc/prometheus/prometheus.yaml'
     links:
       - alertmanager:alertmanager
     ports:
@@ -36,7 +36,7 @@ services:
     hostname: grafana
     image: grafana/grafana-oss
     volumes:
-      - ./grafana_datasources.yml:/etc/grafana/provisioning/datasources/all.yaml
+      - ./grafana_datasources.yaml:/etc/grafana/provisioning/datasources/all.yaml
       - ./grafana_config.ini:/etc/grafana/config.ini
       - grafana_data:/var/lib/grafana
     ports:

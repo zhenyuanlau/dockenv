@@ -21,6 +21,8 @@ services:
     volumes:
       - ch1-data:/var/lib/clickhouse
       - ./configs/ch1:/etc/clickhouse-server/config.d/
+    networks:
+      - compose
 
   ch2:
     <<: *clickhouse-default
@@ -33,6 +35,8 @@ services:
     volumes:
       - ch2-data:/var/lib/clickhouse
       - "./configs/ch2:/etc/clickhouse-server/config.d/"
+    networks:
+      - compose
 
   ch3:
     <<: *clickhouse-default
@@ -45,6 +49,8 @@ services:
     volumes:
       - ch3-data:/var/lib/clickhouse
       - ./configs/ch3:/etc/clickhouse-server/config.d/
+    networks:
+      - compose
   # ch4:
   #   <<: *clickhouse-default
   #   hostname: ch4
@@ -62,3 +68,7 @@ volumes:
   ch2-data:
   ch3-data:
   # ch4-data:
+
+networks:
+  compose:
+    external: true

@@ -14,3 +14,9 @@
 - hadoop
 - harbor
 - kafka
+
+## Network
+
+```shell
+docker network create compose
+```
