@@ -1,1 +1,5 @@
 clickhouse/configs
+
+logs/
+
+*.tar.gz

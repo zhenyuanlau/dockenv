@@ -1,4 +1,3 @@
-version: '3.6'
 services:
   web:
     image: 'yrzr/gitlab-ce-arm64v8'

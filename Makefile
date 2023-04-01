@@ -17,3 +17,11 @@ down:
 	$(MAKE) -C rabbitmq $@
 	$(MAKE) -C redis $@
 	$(MAKE) -C postgres $@
+
+.PHONY: up4v
+up4v:
+	$(MAKE) -C hadoop up
+
+.PHONY: build
+build:
+	$(MAKE) -C hadoop $@
