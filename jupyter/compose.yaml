@@ -1,0 +1,18 @@
+services:
+  datascience:
+    image: jupyter/datascience-notebook:2023-02-28
+    hostname: datascience-notebook
+    container_name: datascience-notebook
+    ports:
+      - 10000:8888
+    volumes:
+      - jupyter-data:/home/jovyan/work
+    networks:
+      - compose
+
+volumes:
+  jupyter-data:
+
+networks:
+  compose:
+    external: true
