@@ -2,6 +2,7 @@
 volumes:
   prometheus_data: {}
   grafana_data: {}
+  promtail_data: {}
 
 services:
 
@@ -15,6 +16,8 @@ services:
       - '--config.file=/etc/alertmanager/alertmanager.conf'
     ports:
       - 9093:9093
+    networks:
+      - compose
 
   prometheus:
     container_name: prometheus
@@ -30,6 +33,8 @@ services:
       - alertmanager:alertmanager
     ports:
       - 9090:9090
+    networks:
+      - compose
 
   grafana:
     container_name: grafana
@@ -41,3 +46,29 @@ services:
       - grafana_data:/var/lib/grafana
     ports:
       - 3000:3000
+    networks:
+      - compose
+  
+  loki:
+    container_name: loki
+    hostname: loki
+    image: grafana/loki:2.8.0
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - compose
+
+  promtail:
+    container_name: promtail
+    hostname: promtail
+    image: grafana/promtail:2.8.0
+    volumes:
+      - promtail_data:/var/log
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - compose
+
+networks:
+  compose:
+    external: true
