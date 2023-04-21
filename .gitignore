@@ -3,3 +3,4 @@ clickhouse/configs
 logs/
 
 *.tar.gz
+__pycache__/
