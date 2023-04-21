@@ -1,5 +1,6 @@
 services:
   jobmanager:
+    container_name: jobmanager
     image: flink:latest
     ports:
       - "8081:8081"
@@ -8,8 +9,11 @@ services:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
+    networks:
+      - compose
 
   taskmanager:
+    container_name: taskmanager
     image: flink:latest
     depends_on:
       - jobmanager
@@ -20,7 +24,11 @@ services:
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 2
+    networks:
+      - compose
+
   sql-client:
+    container_name: sql-client
     image: flink:latest
     command: bin/sql-client.sh
     depends_on:
@@ -30,3 +38,9 @@ services:
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         rest.address: jobmanager
+    networks:
+      - compose
+
+networks:
+  compose:
+    external: true
