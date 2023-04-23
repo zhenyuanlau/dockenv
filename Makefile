@@ -25,3 +25,7 @@ up4v:
 .PHONY: build
 build:
 	$(MAKE) -C hadoop $@
+
+.PHONY: clean
+clean:
+	docker rm $$(docker ps -a -f status=exited -q)
