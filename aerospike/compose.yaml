@@ -3,6 +3,8 @@ services:
     container_name: aerospikedb
     hostname: aerospikedb
     image: aerospike/aerospike-server:latest
+    # environment:
+    #   NAMESPACE: test
     networks:
       - compose
     ports:

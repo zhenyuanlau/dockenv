@@ -3,6 +3,8 @@ services:
     container_name: redis-stack
     hostname: redis-stack
     image: redis/redis-stack:latest
+    environment:
+      REDIS_ARGS: "--requirepass redis"
     volumes:
       - redis-data:/data
     ports:
