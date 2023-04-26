@@ -1,18 +1,31 @@
 services:
   web:
-    image: 'yrzr/gitlab-ce-arm64v8'
-    container_name: gitlab
+    image: 'gitlab/gitlab-ce:latest'
+    platform: linux/amd64
+    container_name: gitlab-ce
     restart: always
-    privileged: true
-    hostname: 'git.local'
+    hostname: 'gitlab.example.com'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        nginx['redirect_http_to_https'] = true;
+        external_url 'http://gitlab.example.com'
+        # Add any other gitlab.rb configuration here, each on its own line
     ports:
-      - '8880:80'
+      - '8080:80'
       - '8443:443'
-      - '8822:22'
+      - '2242:22'
     volumes:
-      - '$GITLAB_HOME/config:/etc/gitlab'
-      - '$GITLAB_HOME/logs:/var/log/gitlab'
-      - '$GITLAB_HOME/data:/var/opt/gitlab'
+      - 'gitlab-config:/etc/gitlab'
+      - 'gitlab-logs:/var/log/gitlab'
+      - 'gitlab-data:/var/opt/gitlab'
+    networks:
+      - compose
+    shm_size: '2gb'
+
+volumes:
+  gitlab-config:
+  gitlab-logs:
+  gitlab-data:
+
+networks:
+  compose:
+    external: true

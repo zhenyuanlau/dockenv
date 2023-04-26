@@ -1,7 +1,7 @@
 # SUBDIRS := $(shell ls -l | grep ^d | awk '{if($$9 != "adhoc") print $$9}')
 
-.PHONY: external
-external:
+.PHONY: net
+net:
 	docker network ls | grep compose > /dev/null || docker network create compose
 
 .PHONY: up
@@ -33,12 +33,14 @@ clean:
 .PHONY: misc-up
 misc-up:
 	$(MAKE) -C clickhouse up
+	$(MAKE) -C aerospike up
 	$(MAKE) -C postgres up
 	$(MAKE) -C redis up 
 
 .PHONY: misc-down
 misc-down:
 	$(MAKE) -C clickhouse down
+	$(MAKE) -C aerospike down
 	$(MAKE) -C postgres down
 	$(MAKE) -C redis down 
 
