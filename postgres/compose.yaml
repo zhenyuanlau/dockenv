@@ -8,6 +8,7 @@ services:
       PGDATA: /data/postgres
     volumes:
       - postgres-data:/data/postgres
+      - ./init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
     ports:
       - "5432:5432"
     networks:

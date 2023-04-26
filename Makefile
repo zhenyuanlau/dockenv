@@ -29,3 +29,16 @@ build:
 .PHONY: clean
 clean:
 	docker rm $$(docker ps -a -f status=exited -q)
+
+.PHONY: misc-up
+misc-up:
+	$(MAKE) -C clickhouse up
+	$(MAKE) -C postgres up
+	$(MAKE) -C redis up 
+
+.PHONY: misc-down
+misc-down:
+	$(MAKE) -C clickhouse down
+	$(MAKE) -C postgres down
+	$(MAKE) -C redis down 
+
