@@ -1,33 +1,84 @@
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.3.2
+    image: confluentinc/cp-zookeeper:${CONFLUENT_PLATFORM_VERSION:-7.3.2}
     container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - compose
+    volumes:
+      - zk-data:/var/lib/zookeeper/data
 
-  broker:
-    image: confluentinc/cp-kafka:7.3.2
-    container_name: broker
+  broker1:
+    image: confluentinc/cp-kafka:${CONFLUENT_PLATFORM_VERSION:-7.3.2}
+    container_name: broker1
     ports:
-    # To learn about configuring Kafka for access across networks see
-    # https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
-      - "9092:9092"
+      - "9091:9091"
+    healthcheck:
+      test: ps augwwx | egrep [S]upportedKafka
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9091,PLAINTEXT_INTERNAL://broker1:29091
+      BOOTSTRAP_SERVERS: broker1:9091,broker2:9092,broker3:9093
+      # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      # KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    volumes:
+      - b1-data:/var/lib/kafka/data
+    networks:
+      - compose
+
+  broker2:
+    image: confluentinc/cp-kafka:${CONFLUENT_PLATFORM_VERSION:-7.3.2}
+    container_name: broker2
+    ports:
+      - "9092:9092"
+    healthcheck:
+      test: ps augwwx | egrep [S]upportedKafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker2:29092
+      BOOTSTRAP_SERVERS: broker1:9091,broker2:9092,broker3:9093
+    volumes:
+      - b2-data:/var/lib/kafka/data
+    networks:
+      - compose
+
+  broker3:
+    image: confluentinc/cp-kafka:${CONFLUENT_PLATFORM_VERSION:-7.3.2}
+    container_name: broker3
+    ports:
+      - "9093:9093"
+    healthcheck:
+      test: ps augwwx | egrep [S]upportedKafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9093,PLAINTEXT_INTERNAL://broker3:29093
+      BOOTSTRAP_SERVERS: broker1:9091,broker2:9092,broker3:9093
+    volumes:
+      - b3-data:/var/lib/kafka/data
     networks:
       - compose
 
 networks:
   compose:
     external: true
+
+volumes:
+  zk-data:
+  b1-data:
+  b2-data:
+  b3-data:

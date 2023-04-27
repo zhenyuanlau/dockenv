@@ -1,7 +1,7 @@
 # SUBDIRS := $(shell ls -l | grep ^d | awk '{if($$9 != "adhoc") print $$9}')
 
-.PHONY: net
-net:
+.PHONY: network
+network:
 	docker network ls | grep compose > /dev/null || docker network create compose
 
 .PHONY: up
@@ -18,13 +18,13 @@ down:
 	$(MAKE) -C redis $@
 	$(MAKE) -C postgres $@
 
-.PHONY: up4v
-up4v:
+.PHONY: big-up
+big-up: big-build
 	$(MAKE) -C hadoop up
 
-.PHONY: build
-build:
-	$(MAKE) -C hadoop $@
+.PHONY: big-build
+big-build:
+	$(MAKE) -C hadoop build
 
 .PHONY: clean
 clean:
@@ -33,6 +33,8 @@ clean:
 .PHONY: misc-up
 misc-up:
 	$(MAKE) -C clickhouse up
+	$(MAKE) -C kafka up
+	$(MAKE) -C rabbitmq up
 	$(MAKE) -C aerospike up
 	$(MAKE) -C postgres up
 	$(MAKE) -C redis up 
@@ -40,7 +42,8 @@ misc-up:
 .PHONY: misc-down
 misc-down:
 	$(MAKE) -C clickhouse down
+	$(MAKE) -C rabbitmq down
+	$(MAKE) -C kafka down
 	$(MAKE) -C aerospike down
 	$(MAKE) -C postgres down
 	$(MAKE) -C redis down 
-

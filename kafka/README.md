@@ -11,4 +11,6 @@ kafka-topics --bootstrap-server broker:9092 \
              --topic quickstart
 
 kcat -L -b localhost:9092 -t quickstart
+
+kcat -C -b localhost:9092 -t test
 ```
